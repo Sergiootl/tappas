@@ -1,0 +1,18 @@
+import redis
+from pymongo import MongoClient
+
+class BaseDatos:
+    def __init__(self):
+        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
+        self.mongo_client = MongoClient("mongodb://localhost:27017/")
+        self.db = self.mongo_client["restaurantes_db"]
+
+    def obtener_restaurantes_desde_redis(self, clave):
+        return self.redis_client.get(clave)
+
+    def guardar_en_redis(self, clave, valor):
+        self.redis_client.set(clave, valor)
+
+    def obtener_restaurantes_desde_mongo(self, ciudad):
+        collection = self.db["restaurantes"]
+        return collection.find({"ciudad": ciudad})
