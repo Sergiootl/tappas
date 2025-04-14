@@ -1,5 +1,6 @@
 import pandas as pd
 import chardet
+import random
 from enum import Enum
 
 # Definimos los enumeradores para las categorías de restaurante y cafetería
@@ -23,6 +24,27 @@ platos_por_categoria = {
     '1 taza': ["Café Solo", "Café con Leche", "Tostadas con Tomate", "Café con leche condensada", "Bollería variada", "Galletas caseras", "Bizcocho de yogur", "Croissant", "Bocadillo de jamón y queso", "Pan con aceite de oliva y tomate", "Café de máquina", "Magdalenas", "Panecillos rellenos de chocolate", "Bocadillo de calamares", "Churros con chocolate"],
     '2 tazas': ["Café Americano", "Café Cortado", "Bocadillo de Jamón", "Croissant", "Bocadillo de Queso Manchego", "Tarta de manzana", "Bocadillo de tortilla", "Café con leche de avena", "Bollos suizos", "Café con leche de soja", "Tarta de zanahoria", "Galletas de avena y miel", "Tostada con aguacate y huevo poché", "Café con leche y un toque de vainilla", "Muffins de arándano"],
     '3 tazas': ["Café Espresso", "Tarta de Manzana", "Bocadillo de Tortilla", "Café Latte", "Café Mocha", "Tarta de almendra", "Tarta de limón y merengue", "Café Macchiato", "Croissant relleno de crema de pistacho", "Bocadillo de jamón ibérico y tomate", "Bollería artesana", "Tarta de chocolate con frutos rojos", "Bizcocho de almendra y miel", "Tarta de mousse de chocolate", "Café irlandés", "Galletas de chocolate blanco y macadamia"]
+}
+
+# Diccionario de platos para Café - Bar
+platos_por_cafe_bar = {
+    'cafe-bar': [
+        'Tortilla de patatas',
+        'Migas extremeñas',
+        'Callos',
+        'Chanfaina',
+        'Patatas bravas',
+        'Lomo adobado',
+        'Morcilla patatera',
+        'Queso de la Serena',
+        'Jamón ibérico',
+        'Croquetas caseras',
+        'Carrillada ibérica',
+        'Pincho moruno',
+        'Calamares fritos',
+        'Montadito de secreto',
+        'Gazpacho extremeño'
+    ]
 }
 
 # Diccionario de palabras clave en nombres y sus platos asociados
@@ -100,6 +122,20 @@ def asignar_platos_cafeteria(categoria_cafeteria):
         return ', '.join(platos_por_categoria['3 tazas'])
     return ''
 
+def asignar_platos_cafe_bar():
+    return ', '.join(platos_por_cafe_bar['cafe-bar'])
+
+# Función para seleccionar los mejores platos (máximo 5 aleatorios)
+def seleccionar_mejores_platos(platos_str):
+    if isinstance(platos_str, str) and platos_str.strip():
+        platos_list = [plato.strip() for plato in platos_str.split(',')]
+        return ', '.join(random.sample(platos_list, min(5, len(platos_list))))
+    return ''
+
+# Función para generar una valoración aleatoria entre 0 y 5 con 1 decimal
+def generar_valoracion():
+    return round(random.uniform(0, 5), 1)
+
 # Función principal: orden de prioridad → nombre > modalidad/categoría
 def asignar_platos(row):
     try:
@@ -122,6 +158,9 @@ def asignar_platos(row):
             if categoria_cafeteria:
                 return asignar_platos_cafeteria(categoria_cafeteria)
 
+        elif 'Café - Bar' in modalidad:
+            return asignar_platos_cafe_bar()
+
         elif 'Salón de banquetes' in modalidad or 'Catering' in modalidad:
             return "Menú con reserva previa"
 
@@ -131,7 +170,15 @@ def asignar_platos(row):
         return ''
 
 
-# Aplicar función y guardar resultado
+# Crear la columna 'Platos' utilizando la función principal
 df['Platos'] = df.apply(asignar_platos, axis=1)
+
+# Crear la columna 'Mejores platos' seleccionando 5 platos aleatorios
+df['Mejores platos'] = df['Platos'].apply(seleccionar_mejores_platos)
+
+# Crear la columna 'Valoracion' generando una valoración aleatoria entre 0 y 5
+df['Valoracion'] = df.apply(lambda row: generar_valoracion(), axis=1)
+
+# Guardar el DataFrame con las nuevas columnas
 df.to_excel('Restauracion_con_platos.xlsx', index=False)
 print("Archivo final guardado como 'Restauracion_con_platos.xlsx'")
