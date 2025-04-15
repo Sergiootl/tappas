@@ -131,7 +131,7 @@ Este script tiene como objetivo asignar platos representativos a los establecimi
    Leemos el archivo CSV (`Restauracion.csv`), detectamos su codificación para asegurar que se carga correctamente y lo transformamos a formato .xlsx para poder trabajar mejor con pandas.
 
 6. **Lógica de Asignación de Platos**  
-   Según la modalidad del establecimiento, la categoría y las palabras clave en el nombre, se asignan entre 3 a 5 platos aleatorios. El código verifica estas condiciones y asigna los platos correspondientes.
+   Según la modalidad del establecimiento, la categoría y las palabras clave en el nombre, se asignan 15 platos definidos en sus diccionarios correspondientes y posteriormene se seleccionan 5 platos aleatorios. El código verifica estas condiciones y asigna los platos correspondientes.
    
 7. **Exportación de Datos**  
 Finalmente, se agregan los platos asignados al DataFrame y el resultado final se guarda en un archivo Excel denominado `Restauracion_con_platos.xlsx`
