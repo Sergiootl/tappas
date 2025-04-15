@@ -104,3 +104,34 @@ A continuación, se detalla la información sobre cada columna y sus valores pos
 - **Ejemplo**: 4,1
 
 ---
+# Script de Asignación de Platos por Establecimiento en Python
+
+## Objetivo del Script
+Este script tiene como objetivo asignar platos representativos a los establecimientos de restauración de un archivo CSV (`Restauracion.csv`). Los platos se asignan basándose en la **modalidad** (Restaurante, Cafetería, Café-Bar), la **categoría** (tenedores/tazas) y las **palabras clave** en el nombre del establecimiento. El resultado final se guarda en un archivo Excel denominado `Restauracion_con_platos.xlsx`.
+
+## Pasos Principales del Script
+
+1. **Importación de Librerías**  
+   Utilizamos:
+   - `pandas`: para manejar el archivo CSV y manipular datos.
+   - `chardet`: para detectar la codificación del archivo CSV.
+   - `random`: para seleccionar platos aleatorios.
+   - `Enum`: para definir categorías de establecimientos.
+
+2. **Enumeraciones para Categorías**  
+   Definimos clases de enumeración (`Enum`) para categorizar los restaurantes y cafeterías por su nivel (ej. 1 tenedor, 2 tenedores, etc.).
+
+3. **Diccionarios de Platos por Categoría**  
+   Creamos diccionarios que asignan listas de platos dependiendo de la categoría del establecimiento (Restaurante de 1 tenedor, 4 tenedores, Cafeterías, etc.).
+
+4. **Palabras Clave en el Nombre del Establecimiento**  
+   Definimos un diccionario que asigna platos según palabras clave en el nombre del establecimiento (por ejemplo, "sushi", "mexican", "burger").
+
+5. **Lectura del CSV y Detección de Codificación**  
+   Leemos el archivo CSV (`Restauracion.csv`), detectamos su codificación para asegurar que se carga correctamente y lo transformamos a formato .xlsx para poder trabajar mejor con pandas.
+
+6. **Lógica de Asignación de Platos**  
+   Según la modalidad del establecimiento, la categoría y las palabras clave en el nombre, se asignan entre 3 a 5 platos aleatorios. El código verifica estas condiciones y asigna los platos correspondientes.
+   
+7. **Exportación de Datos**  
+Finalmente, se agregan los platos asignados al DataFrame y el resultado final se guarda en un archivo Excel denominado `Restauracion_con_platos.xlsx`
