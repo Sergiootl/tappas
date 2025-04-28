@@ -1,0 +1,61 @@
+Los Restaurantes se clasifican en las siguientes categorías:
+1. Restaurantes de primera Categoría: 4 Tenedores
+Los restaurantes de 4 tenedores deberán cumplir, como mínimo, con las prescripciones
+técnicas que se indican en el Anexo I. No obstante lo anterior, deberán además disponer
+de lo que a continuación se detalla:
+a) Las cartas de platos y menús y cartas de vinos, además de en idioma castellano,
+deberán ofrecerse al menos en dos idiomas extranjeros, siendo obligatorio el idioma
+inglés.
+b) Dispondrá de un amplio surtido de vinos, cavas, licores y aguardientes, así como de
+todos los elementos necesarios para el correcto servicio de éstos. La bodega deberá
+contar con bebidas con denominaciones de origen de Extremadura.
+c) El personal que preste servicio directo al público deberá estar debidamente uniformado
+y será el necesario de acuerdo a esta categoría. En todo caso, el jefe de comedor deberá
+conocer dos idiomas extranjeros.
+2. Restaurantes de segunda Categoría: 3 Tenedores.
+Deberán reunir, como mínimo, las prescripciones determinadas en el Anexo I. Asimismo
+deberán contar con lo que a continuación se detalla:
+a) Las cartas de platos y menús y cartas de vinos, además de en idioma castellano,
+deberán ofrecerse al menos en dos idiomas extranjeros, siendo obligatorio el idioma
+inglés.
+b) Dispondrá un amplio surtido de vinos, cavas, licores y aguardientes, así como de todos
+los elementos necesarios para el correcto servicio de éstos.
+c) El personal que preste servicio directo al público deberá estar debidamente uniformado
+y será el necesario de acuerdo a esta categoría. En todo caso, el Jefe de comedor deberá
+conocer dos idiomas extranjeros.
+3. Restaurantes de tercera Categoría: 2 Tenedores.
+Deberán reunir, como mínimo, las prescripciones establecidas en el Anexo I del presente
+Decreto. Asimismo deberán disponer:
+a) Las cartas de platos y menús y cartas de vinos, además de en idioma castellano,
+deberán ofrecerse al menos en dos idiomas extranjeros, siendo obligatorio el idioma
+inglés.
+b) Dispondrá de un amplio surtido de vinos, cavas, licores y aguardientes, así como de
+todos los elementos necesarios para el correcto servicio de éstos.
+4. Restaurantes de cuarta Categoría: 1 Tenedor.
+Deberán reunir, como mínimo, las prescripciones establecidas para esta categoría en el
+Anexo I del presente Decreto. Asimismo deberá contar con lo siguiente:
+a) Las cartas de platos y menús y cartas de vinos, además de en idioma castellano,
+deberán o
+
+
+
+
+# Asignar platos a restaurantes basados en categorías
+for restaurante, datos in restaurantes.items():
+    categoria = datos['categoria']
+    
+    # Obtener los platos disponibles para esa categoría
+    platos_disponibles = categorias[categoria]
+    
+    # Seleccionar 10 platos aleatorios de los 15 disponibles
+    platos_seleccionados = random.sample(platos_disponibles, 10)
+    
+    # Los primeros 3 platos seleccionados serán los "mejores" del restaurante
+    mejores_platos = platos_seleccionados[:3]
+    
+    # Asignar los 10 platos al restaurante
+    datos['platos_seleccionados'] = platos_seleccionados
+    datos['mejores_platos'] = mejores_platos
+
+    print(f'{restaurante} - Mejores Platos: {mejores_platos}')
+    print(f'{restaurante} - Todos los Platos Seleccionados: {platos_seleccionados}')
