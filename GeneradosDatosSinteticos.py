@@ -86,39 +86,39 @@ def asignar_platos_por_nombre(nombre_establecimiento):
         nombre_establecimiento = nombre_establecimiento.lower()
         for palabra_clave, platos in platos_por_nombre_clave.items():
             if palabra_clave in nombre_establecimiento:
-                return ', '.join(platos)
+                return ','.join(platos)
     return ''
 
 # Asignar platos según categoría restaurante
 def asignar_platos_restaurante(categoria_restaurante):
     if categoria_restaurante == CategoriaRestaurante.CATEGORIA_1_TENEDOR:
-        return ', '.join(platos_por_categoria['1 tenedor'])
+        return ','.join(platos_por_categoria['1 tenedor'])
     elif categoria_restaurante == CategoriaRestaurante.CATEGORIA_2_TENEDORES:
-        return ', '.join(platos_por_categoria['2 tenedores'])
+        return ','.join(platos_por_categoria['2 tenedores'])
     elif categoria_restaurante == CategoriaRestaurante.CATEGORIA_3_TENEDORES:
-        return ', '.join(platos_por_categoria['3 tenedores'])
+        return ','.join(platos_por_categoria['3 tenedores'])
     elif categoria_restaurante == CategoriaRestaurante.CATEGORIA_4_TENEDORES:
-        return ', '.join(platos_por_categoria['4 tenedores'])
+        return ','.join(platos_por_categoria['4 tenedores'])
     return ''
 
 # Asignar platos según categoría cafetería
 def asignar_platos_cafeteria(categoria_cafeteria):
     if categoria_cafeteria == CategoriaCafeteria.CATEGORIA_1_TAZA:
-        return ', '.join(platos_por_categoria['1 taza'])
+        return ','.join(platos_por_categoria['1 taza'])
     elif categoria_cafeteria == CategoriaCafeteria.CATEGORIA_2_TAZAS:
-        return ', '.join(platos_por_categoria['2 tazas'])
+        return ','.join(platos_por_categoria['2 tazas'])
     elif categoria_cafeteria == CategoriaCafeteria.CATEGORIA_3_TAZAS:
-        return ', '.join(platos_por_categoria['3 tazas'])
+        return ','.join(platos_por_categoria['3 tazas'])
     return ''
 
 def asignar_platos_cafe_bar():
-    return ', '.join(platos_por_cafe_bar['cafe-bar'])
+    return ','.join(platos_por_cafe_bar['cafe-bar'])
 
 # Función para seleccionar los mejores platos (máximo 5 aleatorios)
 def seleccionar_mejores_platos(platos_str):
     if isinstance(platos_str, str) and platos_str.strip():
         platos_list = [plato.strip() for plato in platos_str.split(',')]
-        return ', '.join(random.sample(platos_list, min(5, len(platos_list))))
+        return ','.join(random.sample(platos_list, min(5, len(platos_list))))
     return ''
 
 # Función para generar una valoración aleatoria entre 2,5 y 5 con 1 decimal
