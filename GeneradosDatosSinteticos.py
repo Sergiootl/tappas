@@ -131,20 +131,25 @@ def generar_valoracion(nombre_local, municipio, mejores_platos):
         rating = round(random.uniform(2.5, 5.0), 1)
         conflicto = False
 
-        # Verificamos si el plato en el municipio ya tiene el mismo rating
-        for plato in mejores_platos.split(','):  # Asegurándonos de que los platos están en formato lista
-            clave = (municipio, plato.strip())
+        # Recorremos los platos y comprobamos si el rating ya existe para el plato en el municipio
+        for plato in mejores_platos.split(','):
+            plato = plato.strip()  # Eliminar espacios extra
+            clave = (municipio, plato)
+
+            # Verificamos si el plato ya tiene este rating en el municipio
             if clave in valoraciones_por_plato_ciudad and rating in valoraciones_por_plato_ciudad[clave]:
                 conflicto = True
                 break
         
         if not conflicto:
-            # Si no hay conflicto, registramos el rating
+            # Si no hay conflicto, guardamos el rating para este plato
             for plato in mejores_platos.split(','):
-                clave = (municipio, plato.strip())
+                plato = plato.strip()  # Eliminar espacios extra
+                clave = (municipio, plato)
                 if clave not in valoraciones_por_plato_ciudad:
                     valoraciones_por_plato_ciudad[clave] = set()
                 valoraciones_por_plato_ciudad[clave].add(rating)
+            
             return rating
         
         intentos += 1
