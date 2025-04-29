@@ -121,9 +121,44 @@ def seleccionar_mejores_platos(platos_str):
         return ','.join(random.sample(platos_list, min(5, len(platos_list))))
     return ''
 
-# Función para generar una valoración aleatoria entre 2,5 y 5 con 1 decimal
-def generar_valoracion():
-    return round(random.uniform(2.5, 5.0), 1)
+# Diccionario que almacena ratings previos: {("Ciudad", "Plato"): set(ratings)}
+valoraciones_por_plato_ciudad = {}
+
+def generar_valoracion(nombre_local, municipio, mejores_platos):
+    intentos = 0
+    max_intentos = 50
+    while intentos < max_intentos:
+        rating = round(random.uniform(2.5, 5.0), 1)
+        conflicto = False
+
+        # Verificamos si el plato en el municipio ya tiene el mismo rating
+        for plato in mejores_platos.split(','):  # Asegurándonos de que los platos están en formato lista
+            clave = (municipio, plato.strip())
+            if clave in valoraciones_por_plato_ciudad and rating in valoraciones_por_plato_ciudad[clave]:
+                conflicto = True
+                break
+        
+        if not conflicto:
+            # Si no hay conflicto, registramos el rating
+            for plato in mejores_platos.split(','):
+                clave = (municipio, plato.strip())
+                if clave not in valoraciones_por_plato_ciudad:
+                    valoraciones_por_plato_ciudad[clave] = set()
+                valoraciones_por_plato_ciudad[clave].add(rating)
+            return rating
+        
+        intentos += 1
+
+    # Si no encuentra un rating único tras varios intentos, lo retorna de todas formas
+    return rating
+
+# Función para asignar la valoración correctamente a cada fila de tu DataFrame
+def asignar_rating(row):
+    mejores_platos = row['Mejores platos']
+    municipio = row['Municipio']  # Asegúrate de que tienes la columna 'Municipio'
+    nombre_local = row['Nombre establecimiento']  # Asegúrate de que tienes la columna 'Nombre establecimiento'
+    
+    return generar_valoracion(nombre_local, municipio, mejores_platos)
 
 # Función principal: orden de prioridad → nombre > modalidad/categoría
 def asignar_platos(row):
@@ -167,8 +202,8 @@ df['Platos'] = df.apply(asignar_platos, axis=1)
 # Crear la columna 'Mejores platos' seleccionando 5 platos aleatorios
 df['Mejores platos'] = df['Platos'].apply(seleccionar_mejores_platos)
 
-# Crear la columna 'Rating' generando una valoración aleatoria entre 2.5 y 5
-df['Rating'] = df.apply(lambda row: generar_valoracion(), axis=1)
+# Crear la columna 'Rating' generando una valoración aleatoria entre 2.5 y 5, garantizando que no se repita
+df['Rating'] = df.apply(asignar_rating, axis=1)
 
 # Guardar el DataFrame con las nuevas columnas
 df.to_excel('Restauracion_con_platos.xlsx', index=False)
